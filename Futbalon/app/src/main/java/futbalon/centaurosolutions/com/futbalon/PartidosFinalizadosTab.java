@@ -29,14 +29,14 @@ public class PartidosFinalizadosTab extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_partidos_finalizados_tab);
 
-        partido1.setEquipo1("Alajuela");
-        partido1.setEquipo2("Heredia");
+        partido1.setEquipo1("Alajuelense");
+        partido1.setEquipo2("CS Herediano");
         partido1.setGolesEquipo1(2);
         partido1.setGolesEquipo2(0);
         partido1.setStatus("PEN");
         partido1.setFecha("5 Septiembre, 2015 - 08:00 PM");
 
-        partido2.setEquipo1("Cartago");
+        partido2.setEquipo1("CS Cartaginés");
         partido2.setEquipo2("Perez Zeledón");
         partido2.setGolesEquipo1(2);
         partido2.setGolesEquipo2(1);

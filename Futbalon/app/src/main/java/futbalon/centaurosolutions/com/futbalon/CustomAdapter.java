@@ -61,6 +61,11 @@ public class CustomAdapter extends BaseAdapter{
         String match_score=result.get(position).getEquipo1() + " " + result.get(position).getGolesEquipo1() + " - " + result.get(position).getGolesEquipo2() + " " + result.get(position).getEquipo2();
         rowView = inflater.inflate(R.layout.activity_lista_partidos, null);
         holder.partido=(TextView) rowView.findViewById(R.id.partido);
+        holder.equipo1= (ImageView) rowView.findViewById(R.id.img_equipo1);
+        holder.equipo2= (ImageView) rowView.findViewById(R.id.img_equipo2);
+
+        getImagenEquipo(result.get(position).getEquipo1(), holder.equipo1);
+        getImagenEquipo(result.get(position).getEquipo2(), holder.equipo2);
         holder.partido.setText(match_score);
 
         holder.fecha=(TextView) rowView.findViewById(R.id.fecha);
@@ -74,5 +79,48 @@ public class CustomAdapter extends BaseAdapter{
             }
         });*/
         return rowView;
+    }
+
+    public void getImagenEquipo(String nombreEquipo, ImageView imagen){
+
+        nombreEquipo = nombreEquipo.toLowerCase();
+
+        if(nombreEquipo.indexOf("belén") != -1){
+            imagen.setImageResource(R.mipmap.belen);
+        }
+        if(nombreEquipo.indexOf("uruguay") != -1){
+            imagen.setImageResource(R.mipmap.uruguay);
+        }
+        if(nombreEquipo.indexOf("saprissa") != -1){
+            imagen.setImageResource(R.mipmap.saprissa);
+        }
+        if(nombreEquipo.indexOf("cartaginés") != -1){
+            imagen.setImageResource(R.mipmap.cartago);
+        }
+        if(nombreEquipo.indexOf("carmelita") != -1){
+            imagen.setImageResource(R.mipmap.carmelita);
+        }
+        if(nombreEquipo.indexOf("liberia") != -1){
+            imagen.setImageResource(R.mipmap.liberia);
+        }
+        if(nombreEquipo.indexOf("perez") != -1){
+            imagen.setImageResource(R.mipmap.perez);
+        }
+        if(nombreEquipo.indexOf("ucr") != -1){
+            imagen.setImageResource(R.mipmap.ucr);
+        }
+        if(nombreEquipo.indexOf("santos") != -1){
+            imagen.setImageResource(R.mipmap.santos);
+        }
+        if(nombreEquipo.indexOf("limón") != -1){
+            imagen.setImageResource(R.mipmap.limon);
+        }
+        if(nombreEquipo.indexOf("alajuelense") != -1){
+            imagen.setImageResource(R.mipmap.liga);
+        }
+        if(nombreEquipo.indexOf("herediano") != -1){
+            imagen.setImageResource(R.mipmap.heredia);
+        }
+
     }
 }

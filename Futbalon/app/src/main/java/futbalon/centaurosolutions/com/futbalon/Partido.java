@@ -1,5 +1,7 @@
 package futbalon.centaurosolutions.com.futbalon;
 
+import android.widget.ImageView;
+
 /**
  * Created by Eduardo on 29/08/2015.
  */
@@ -12,6 +14,7 @@ public class Partido {
     private int puntos;
     private String status;
     private String fecha;
+
 
 
 

@@ -34,8 +34,9 @@
                android:layout_height="wrap_content"
                android:layout_below="@+id/fecha_partido">
                <ImageView
+                   android:id="@+id/img_equipo1"
                    android:layout_width="30dp"
-                   android:layout_height="30dp" android:layout_alignParentLeft="@+id/partido" android:src="@mipmap/liberia"
+                   android:layout_height="30dp" android:layout_alignParentLeft="@+id/partido"
                    android:layout_weight="5" />
             <TextView
                 android:id="@+id/partido"
@@ -52,8 +53,9 @@
                 android:layout_weight="1" />
 
                <ImageView
+                   android:id="@+id/img_equipo2"
                    android:layout_width="30dp"
-                   android:layout_height="30dp" android:layout_alignParentRight="@+id/partido" android:src="@mipmap/cartago"
+                   android:layout_height="30dp" android:layout_alignParentRight="@+id/partido"
                    android:layout_weight="5" />
            </LinearLayout>
 
