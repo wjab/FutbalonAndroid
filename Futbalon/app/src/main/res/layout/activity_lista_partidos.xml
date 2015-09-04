@@ -17,37 +17,45 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp">
 
-
-
             <TextView
                 android:id="@+id/fecha"
                 android:layout_gravity="center"
                 android:layout_width="fill_parent"
-                android:layout_height="0dp"
+                android:layout_height="20dp"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
                 android:textStyle="bold"
                 android:textSize="10dp"
                 android:textColor="@color/futbalon_black"
                 />
-
-           
+       </LinearLayout>
+           <LinearLayout
+               android:layout_width="fill_parent"
+               android:layout_height="wrap_content"
+               android:layout_below="@+id/fecha_partido">
+               <ImageView
+                   android:layout_width="30dp"
+                   android:layout_height="30dp" android:layout_alignParentLeft="@+id/partido" android:src="@mipmap/liberia"
+                   android:layout_weight="5" />
             <TextView
                 android:id="@+id/partido"
-                android:layout_gravity="center"
-                android:layout_width="fill_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:layout_marginTop="5dp"
                 android:gravity="center_horizontal"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+
+                android:layout_gravity="center"
+                android:layout_height="20dp"
                 android:textStyle="normal"
                 android:textSize="10dp"
+                android:text="jkjk"
                 android:textColor="@color/futbalon_black"
-                />
+                android:layout_weight="1" />
 
-
-        </LinearLayout>
-
+               <ImageView
+                   android:layout_width="30dp"
+                   android:layout_height="30dp" android:layout_alignParentRight="@+id/partido" android:src="@mipmap/cartago"
+                   android:layout_weight="5" />
+           </LinearLayout>
 
     </RelativeLayout>
 
