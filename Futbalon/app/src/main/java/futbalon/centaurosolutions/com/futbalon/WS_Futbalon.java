@@ -3,12 +3,16 @@ package futbalon.centaurosolutions.com.futbalon;
 import android.app.Activity;
 import android.app.VoiceInteractor;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
 
 /**
  * Created by Administrador on 9/4/2015.
@@ -17,33 +21,15 @@ import com.android.volley.toolbox.Volley;
 public class WS_Futbalon
 {
     String result = "";
+    private int MY_SOCKET_TIMEOUT_MS = 5000;
+    private static WsTestActivity sInstance;
+    private RequestQueue mRequestQueue;
 
-    public String Request(Activity activity)
+    public String Request(Activity activity, String WsURL)
     {
         try
         {
-            Volley v = new Volley();
 
-            // Instantiate the RequestQueue.
-            RequestQueue queue = v.newRequestQueue(activity);
-            String url ="http://www.google.com";
-
-            // Request a string response from the provided URL.
-            StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            // Display the first 500 characters of the response string.
-                            result = response;
-                        }
-                    }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    result = "That didn't work!";
-                }
-            });
-            // Add the request to the RequestQueue.
-            queue.add(stringRequest);
         }
         catch (Exception ex)
         {
@@ -51,5 +37,15 @@ public class WS_Futbalon
         }
 
         return result;
+    }
+
+    public synchronized static WsTestActivity getInstance()
+    {
+        return sInstance;
+    }
+
+    public RequestQueue getRequestQueue()
+    {
+        return mRequestQueue;
     }
 }

@@ -18,4 +18,10 @@
     <string name="title_activity_partidos_finalizados_view">Futbalon</string>
     <string name="title_activity_lista_partidos">Futbalon</string>
     <string name="title_activity_ws_test">WsTestActivity</string>
+
+
+    <!-- Web service URLs -->
+    <string name="GetEndedMatches">http://services.futbalon.com/aggregators/matches/getFinishMatchesByDateRange?idUser=puser_fromValue=pInitialdate_toValue=pEndDate</string>
+    <string name="PostGetTeams">http://services.futbalon.com/aggregators/aggregators/teams/getTeams</string>
+
 </resources>

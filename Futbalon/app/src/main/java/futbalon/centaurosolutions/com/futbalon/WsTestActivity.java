@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -15,9 +16,15 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONObject;
 import org.w3c.dom.Text;
+
+import java.lang.reflect.Method;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 public class WsTestActivity extends Activity {
 
@@ -25,53 +32,111 @@ public class WsTestActivity extends Activity {
     WS_Futbalon ws_futbalon = new WS_Futbalon();
     TextView tv_response;
     String wsResponse;
+    ArrayList listaPartidos;
 
     private static WsTestActivity sInstance;
     private RequestQueue mRequestQueue;
+    private int MY_SOCKET_TIMEOUT_MS = 5000;
+    private String result;
+    String url = "http://services.futbalon.com/aggregators/matches/getFinishMatchesByDateRange?idUser=12018&fromValue=27/08/2015&toValue=03/09/2015";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ws_test);
 
-        mRequestQueue = Volley.newRequestQueue(this);
-        sInstance = this;
-
         button = (Button)findViewById(R.id.b_request);
         tv_response = (TextView)findViewById(R.id.tv_response);
 
-        String url = "https://www.googleapis.com/customsearch/v1?key=AIzaSyBmSXUzVZBKQv9FJkTpZXn0dObKgEQOIFU&cx=014099860786446192319:t5mr0xnusiy&q=AndroidDev&alt=json&searchType=image";
+        mRequestQueue = Volley.newRequestQueue(this);
+        sInstance = this;
+        //String json = Request(this, url );
 
-        JsonObjectRequest request = new JsonObjectRequest(url, null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,url, null, new Response.Listener<JSONObject>() {
 
             @Override
             public void onResponse(JSONObject response) {
                 // TODO Auto-generated method stub
-                tv_response.setText("Response => " + response.toString());
+                tv_response.setText(response.toString());
             }
         }, new Response.ErrorListener() {
 
             @Override
             public void onErrorResponse(VolleyError error) {
                 // TODO Auto-generated method stub
-
+                tv_response.setText(error.toString());
             }
         });
 
         WsTestActivity.getInstance().getRequestQueue().add(request);
 
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
-        //tv_response.setText(wsResponse);
+        listaPartidos = (ArrayList<Partido>) fromJson(tv_response.getText().toString(),
+                new TypeToken<ArrayList<Partido>>() {
+                }.getType());
     }
 
-    public synchronized static WsTestActivity getInstance()
+    public String Request(Activity activity, String WsURL)
+    {
+        try
+        {
+            mRequestQueue = Volley.newRequestQueue(activity);
+            //String url = "http://services.futbalon.com/aggregators/matches/getFinishMatchesByDateRange?idUser=12018&fromValue=27/08/2015&toValue=03/09/2015";
+
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, WsURL, null, new Response.Listener<JSONObject>() {
+
+                @Override
+                public void onResponse(JSONObject response) {
+                    // TODO Auto-generated method stub
+                    //tv_response.setText(response.toString());
+                    result = response.toString();
+                }
+            }, new Response.ErrorListener() {
+
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    // TODO Auto-generated method stub
+                    //tv_response.setText(error.toString());
+                    result = error.toString();
+                }
+            });
+
+            WsTestActivity.getInstance().getRequestQueue().add(request);
+
+            request.setRetryPolicy(new DefaultRetryPolicy(
+                    MY_SOCKET_TIMEOUT_MS,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        }
+        catch (Exception ex)
+        {
+            result = ex.getMessage().toString();
+        }
+
+        return result;
+    }
+
+    private synchronized static WsTestActivity getInstance()
     {
         return sInstance;
     }
 
-    public RequestQueue getRequestQueue()
+    private RequestQueue getRequestQueue()
     {
         return mRequestQueue;
+    }
+
+    public static String toJson(Object jsonObject)
+    {
+        return new Gson().toJson(jsonObject);
+    }
+
+    public static Object fromJson(String jsonString, Type type) {
+        return new Gson().fromJson(jsonString, type);
     }
 
     @Override
