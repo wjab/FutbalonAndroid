@@ -14,10 +14,9 @@ public class Partido {
     private int golesEquipo1;
     private int golesEquipo2;
     private int puntos;
+    private int puntosTotales;
     private String status;
     private String fecha;
-
-
 
 
     public String getEquipo1() {
@@ -82,5 +81,13 @@ public class Partido {
 
     public void setIdEquipo2(int idEquipo2) {
         IdEquipo2 = idEquipo2;
+    }
+
+    public int getPuntosTotales() {
+        return puntosTotales;
+    }
+
+    public void setPuntosTotales(int puntosTotales) {
+        this.puntosTotales = puntosTotales;
     }
 }

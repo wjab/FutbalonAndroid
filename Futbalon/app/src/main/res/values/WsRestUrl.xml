@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="futbalonServices">http://services.futbalon.com/aggregators</string>
+    <string name="GetEndedMatches">/matches/getFinishMatchesByDateRange?idUser=puser_fromValue=pInitialdate_toValue=pEndDate</string>
+    <string name="PostGetTeams">/aggregators/teams/getTeams</string>
+</resources>

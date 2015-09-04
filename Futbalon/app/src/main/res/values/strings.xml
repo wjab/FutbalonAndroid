@@ -17,4 +17,5 @@
     <string name="title_activity_partidos_pendientes_view">Futbalon</string>
     <string name="title_activity_partidos_finalizados_view">Futbalon</string>
     <string name="title_activity_lista_partidos">Futbalon</string>
+    <string name="title_activity_ws_test">WsTestActivity</string>
 </resources>

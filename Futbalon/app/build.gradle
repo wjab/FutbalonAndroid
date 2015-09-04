@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "futbalon.centaurosolutions.com.futbalon"
-        minSdkVersion 22
+        minSdkVersion 21
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -23,4 +23,6 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:support-v13:23.0.0'
     compile 'com.android.support:support-v4:23.0.0'
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.mcxiaoke.volley:library-aar:1.0.0'
 }

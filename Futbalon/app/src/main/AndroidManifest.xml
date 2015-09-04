@@ -2,13 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="futbalon.centaurosolutions.com.futbalon" >
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!--.Login-->
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+
         <activity
-            android:name=".Login"
+            android:name=".WsTestActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,6 +34,10 @@
         <activity
             android:name=".ListaPartidosView"
             android:label="@string/title_activity_lista_partidos" >
+        </activity>
+        <activity
+            android:name=".Login"
+            android:label="@string/title_activity_ws_test" >
         </activity>
     </application>
 
