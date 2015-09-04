@@ -7,15 +7,46 @@
     android:background="@color/futbalon_dark_gray"
     tools:context="futbalon.centaurosolutions.com.futbalon.PartidosFinalizadosTab">
 
-    <TextView android:text="" android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView" />
+
+    <LinearLayout android:layout_height="wrap_content"
+                  android:layout_width="match_parent"
+                  android:orientation="horizontal"
+                  android:background="@color/futbalon_blue"></LinearLayout>
+
+    <LinearLayout android:id="@+id/pickDate"
+                  android:layout_width="match_parent"
+                  android:layout_height="40dp"
+                  android:background="@color/futbalon_dark_gray"
+                  android:weightSum="1">
+
+        <EditText
+            android:id="@+id/etxt_fromdate"
+            android:layout_width="0dp"
+            android:layout_weight=".5"
+            android:textColor="@color/futbalon_dark_gray"
+            android:background="@drawable/round_edit_date"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:layout_marginRight="2dp"/>
+
+        <EditText
+            android:id="@+id/etxt_todate"
+            android:layout_width="0dp"
+            android:layout_weight=".5"
+            android:textSize="14sp"
+            android:textColor="@color/futbalon_dark_gray"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_edit_date"
+            android:gravity="center" />
+
+    </LinearLayout>
 
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/listView"
-        android:layout_below="@+id/textView"
+        android:layout_below="@+id/pickDate"
         android:layout_alignParentStart="true" />
 
 </RelativeLayout>

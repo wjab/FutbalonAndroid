@@ -2,7 +2,8 @@
     android:id="@android:id/tabhost"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/futbalon_gray">
+    android:background="@color/futbalon_gray"
+    >
 
     <LinearLayout
         android:orientation="vertical"
@@ -13,6 +14,7 @@
             android:id="@android:id/tabs"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+
             />
 
         <FrameLayout

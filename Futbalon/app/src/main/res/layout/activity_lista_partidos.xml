@@ -25,7 +25,7 @@
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
                 android:textStyle="bold"
-                android:textSize="10dp"
+                android:textSize="10sp"
                 android:textColor="@color/futbalon_black"
                 />
        </LinearLayout>
@@ -47,8 +47,7 @@
                 android:layout_gravity="center"
                 android:layout_height="20dp"
                 android:textStyle="normal"
-                android:textSize="10dp"
-                android:text="jkjk"
+                android:textSize="10sp"
                 android:textColor="@color/futbalon_black"
                 android:layout_weight="1" />
 

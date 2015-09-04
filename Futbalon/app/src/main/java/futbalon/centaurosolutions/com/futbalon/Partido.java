@@ -7,6 +7,8 @@ import android.widget.ImageView;
  */
 public class Partido {
 
+    private int idEquipo1;
+    private int IdEquipo2;
     private String equipo1;
     private String equipo2;
     private int golesEquipo1;
@@ -64,5 +66,21 @@ public class Partido {
 
     public void setFecha(String fecha) {
         this.fecha = fecha;
+    }
+
+    public int getIdEquipo1() {
+        return idEquipo1;
+    }
+
+    public void setIdEquipo1(int idEquipo1) {
+        this.idEquipo1 = idEquipo1;
+    }
+
+    public int getIdEquipo2() {
+        return IdEquipo2;
+    }
+
+    public void setIdEquipo2(int idEquipo2) {
+        IdEquipo2 = idEquipo2;
     }
 }

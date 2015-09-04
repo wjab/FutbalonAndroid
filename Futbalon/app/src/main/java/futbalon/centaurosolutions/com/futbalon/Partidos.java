@@ -3,11 +3,15 @@ package futbalon.centaurosolutions.com.futbalon;
 import android.app.Activity;
 import android.app.TabActivity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TabHost;
 import android.util.Log;
+import android.widget.TabWidget;
+import android.widget.TextView;
 
 public class Partidos extends TabActivity implements TabHost.OnTabChangeListener {
 
@@ -26,7 +30,7 @@ public class Partidos extends TabActivity implements TabHost.OnTabChangeListener
         TabHost.TabSpec spec;
         Intent intent;
 
-        /************* TAB1 ************/
+
         // Create  Intents to launch an Activity for the tab (to be reused)
         intent = new Intent().setClass(this, PartidosPendientesTab.class);
         spec = tabHost.newTabSpec("First").setIndicator("Partidos")
@@ -35,21 +39,27 @@ public class Partidos extends TabActivity implements TabHost.OnTabChangeListener
         //Add intent to tab
         tabHost.addTab(spec);
 
-        /************* TAB2 ************/
         intent = new Intent().setClass(this, PartidosFinalizadosTab.class);
         spec = tabHost.newTabSpec("Second").setIndicator("Partidos Finalizados")
                 .setContent(intent);
         tabHost.addTab(spec);
 
 
-        // Set drawable images to tab
-       // tabHost.getTabWidget().getChildAt(1).setBackgroundResource(R.drawable.tab2);
-       tabHost.getTabWidget().getChildAt(1).setBackgroundResource(R.color.futbalon_background);
+        tabHost.getTabWidget().getChildAt(1).setBackgroundResource(R.color.futbalon_background);
         tabHost.getTabWidget().getChildAt(1).setBackgroundResource(R.color.futbalon_background);
 
-        // Set Tab1 as Default tab and change image
         tabHost.getTabWidget().setCurrentTab(0);
         tabHost.getTabWidget().getChildAt(0).setBackgroundResource(R.color.futbalon_blue);
+
+
+        for(int i=0;i<tabHost.getTabWidget().getChildCount();i++)
+        {
+            TextView tv = (TextView) tabHost.getTabWidget().getChildAt(i).findViewById(android.R.id.title);
+            tv.setAllCaps(false);
+            tv.setTextColor(Color.WHITE);
+        }
+
+
 
     }
 

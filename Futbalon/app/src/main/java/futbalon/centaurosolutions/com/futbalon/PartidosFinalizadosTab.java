@@ -1,13 +1,22 @@
 package futbalon.centaurosolutions.com.futbalon;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ListView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
 
 public class PartidosFinalizadosTab extends Activity {
 
@@ -15,6 +24,13 @@ public class PartidosFinalizadosTab extends Activity {
     Context context;
 
     ArrayList prgmName;
+    private EditText fromDateEtxt;
+    private EditText toDateEtxt;
+
+    private DatePickerDialog fromDatePickerDialog;
+    private DatePickerDialog toDatePickerDialog;
+
+    private SimpleDateFormat dateFormatter;
  //   public static int [] prgmImages={R.drawable.images,R.drawable.images1,R.drawable.images2,R.drawable.images3,R.drawable.images4,R.drawable.images5,R.drawable.images6,R.drawable.images7,R.drawable.images8};
  //   public static String [] prgmNameList={"Let Us C","c++","JAVA","Jsp","Microsoft .Net","Android","PHP","Jquery","JavaScript"};
 
@@ -29,6 +45,13 @@ public class PartidosFinalizadosTab extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_partidos_finalizados_tab);
 
+        dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
+
+        findViewsById();
+
+        setDateTimeField();
+
+        partido2.setIdEquipo1(43);
         partido1.setEquipo1("Alajuelense");
         partido1.setEquipo2("CS Herediano");
         partido1.setGolesEquipo1(2);
@@ -46,15 +69,70 @@ public class PartidosFinalizadosTab extends Activity {
         array_mejenga.add(partido1);
         array_mejenga.add(partido2);
 
+        fromDateEtxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fromDatePickerDialog.show();
+            }
+        });
+
+        toDateEtxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toDatePickerDialog.show();
+            }
+        });
 
 
+        context = this;
 
-
-        context=this;
-
-        lv=(ListView) findViewById(R.id.listView);
+        lv = (ListView) findViewById(R.id.listView);
         lv.setAdapter(new CustomAdapter(this, array_mejenga));
     }
+
+    private void findViewsById() {
+        fromDateEtxt = (EditText) findViewById(R.id.etxt_fromdate);
+        fromDateEtxt.setInputType(InputType.TYPE_NULL);
+        fromDateEtxt.requestFocus();
+
+        toDateEtxt = (EditText) findViewById(R.id.etxt_todate);
+        toDateEtxt.setInputType(InputType.TYPE_NULL);
+    }
+
+    private void setDateTimeField() {
+
+
+        Calendar currDate = Calendar.getInstance();
+        toDateEtxt.setText(dateFormatter.format(currDate.getTime()));
+        currDate.add(Calendar.DAY_OF_MONTH,-7);
+        fromDateEtxt.setText(dateFormatter.format(currDate.getTime()));
+
+
+
+        Calendar newCalendar = Calendar.getInstance();
+        fromDatePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+                fromDateEtxt.setText(dateFormatter.format(newDate.getTime()));
+            }
+
+        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
+        toDatePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+                toDateEtxt.setText(dateFormatter.format(newDate.getTime()));
+            }
+
+        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+    }
+
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
