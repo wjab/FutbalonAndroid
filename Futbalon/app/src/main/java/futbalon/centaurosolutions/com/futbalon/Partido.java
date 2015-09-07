@@ -2,6 +2,11 @@ package futbalon.centaurosolutions.com.futbalon;
 
 import android.widget.ImageView;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
 /**
  * Created by Eduardo on 29/08/2015.
  */
@@ -17,6 +22,50 @@ public class Partido {
     private int puntosTotales;
     private String status;
     private String fecha;
+    private String ImagenEquipo1;
+    private String ImagenEquipo2;
+
+
+    public ArrayList<Partido> createArrayListPartidoFromResponse(JSONArray myPartidoJSON){
+
+        final String imageUrl = "http://play.futbalon.com/";
+        String imagenEquipo2 = "";
+        String imagenEquipo1 = "";
+        Partido miPartido = new Partido();
+
+
+        ArrayList<Partido> listaPartidos = new ArrayList<Partido>();
+
+        try{
+
+            for (int i = 0; i < myPartidoJSON.length(); i++) {
+
+
+                JSONObject row = myPartidoJSON.getJSONObject(i);
+                miPartido.setIdEquipo1(Integer.parseInt(row.getString("teamA")));
+                miPartido.setIdEquipo2(Integer.parseInt(row.getString("teamB")));
+                miPartido.setGolesEquipo1(Integer.parseInt(row.getString("teamGoalA")));
+                miPartido.setGolesEquipo2(Integer.parseInt(row.getString("teamGoalB")));
+                miPartido.setStatus(row.getString("status"));
+                miPartido.setEquipo1(row.getString("teamNameA"));
+                miPartido.setEquipo2(row.getString("teamNameB"));
+                imagenEquipo1 = imageUrl + row.getString("logotypeTeamA");
+                imagenEquipo2 = imageUrl + row.getString("logotypeTeamB");
+                miPartido.setImagenEquipo1(imagenEquipo1);
+                miPartido.setImagenEquipo2(imagenEquipo2);
+                miPartido.setFecha(row.getString("matchDate").toString());
+                listaPartidos.add(miPartido);
+            }
+        }
+        catch (Exception ex){
+
+        }
+
+        return listaPartidos;
+
+    }
+
+
 
 
     public String getEquipo1() {
@@ -89,5 +138,21 @@ public class Partido {
 
     public void setPuntosTotales(int puntosTotales) {
         this.puntosTotales = puntosTotales;
+    }
+
+    public String getImagenEquipo1() {
+        return ImagenEquipo1;
+    }
+
+    public void setImagenEquipo1(String imagenEquipo1) {
+        ImagenEquipo1 = imagenEquipo1;
+    }
+
+    public String getImagenEquipo2() {
+        return ImagenEquipo2;
+    }
+
+    public void setImagenEquipo2(String imagenEquipo2) {
+        ImagenEquipo2 = imagenEquipo2;
     }
 }
