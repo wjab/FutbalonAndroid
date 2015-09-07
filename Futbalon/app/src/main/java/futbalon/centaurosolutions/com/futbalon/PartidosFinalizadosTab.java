@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,12 +14,23 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.google.gson.Gson;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class PartidosFinalizadosTab extends Activity {
+import futbalon.centaurosolutions.com.futbalon.controllers.ServiceController;
+
+public class PartidosFinalizadosTab extends Activity implements Response.Listener<JSONObject>, Response.ErrorListener {
 
     ListView lv;
     Context context;
@@ -36,7 +48,7 @@ public class PartidosFinalizadosTab extends Activity {
 
     public Partido partido1= new Partido();
     public Partido partido2= new Partido();
-    ArrayList<Partido> array_mejenga = new ArrayList<Partido>();
+    ArrayList<Partido> partidos = new ArrayList<Partido>();
 
 
 
@@ -50,24 +62,11 @@ public class PartidosFinalizadosTab extends Activity {
         findViewsById();
 
         setDateTimeField();
+        String url = "http://services.futbalon.com/aggregators/matches/getFinishMatchesByDateRange?idUser=12018&fromValue=27/08/2015&toValue=03/09/2015";
 
-        partido2.setIdEquipo1(43);
-        partido1.setEquipo1("Alajuelense");
-        partido1.setEquipo2("CS Herediano");
-        partido1.setGolesEquipo1(2);
-        partido1.setGolesEquipo2(0);
-        partido1.setStatus("PEN");
-        partido1.setFecha("5 Septiembre, 2015 - 08:00 PM");
 
-        partido2.setEquipo1("CS Cartaginés");
-        partido2.setEquipo2("Perez Zeledón");
-        partido2.setGolesEquipo1(2);
-        partido2.setGolesEquipo2(1);
-        partido2.setStatus("PEN");
-        partido2.setFecha("4 Septiembre, 2015 - 05:00 PM");
 
-        array_mejenga.add(partido1);
-        array_mejenga.add(partido2);
+
 
         fromDateEtxt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,10 +83,12 @@ public class PartidosFinalizadosTab extends Activity {
         });
 
 
-        context = this;
 
-        lv = (ListView) findViewById(R.id.listView);
-        lv.setAdapter(new CustomAdapter(this, array_mejenga));
+        ServiceController serviceController = new ServiceController();
+
+        serviceController.jsonObjectRequest(url, Request.Method.GET, null, this, this);
+
+
     }
 
     private void findViewsById() {
@@ -131,6 +132,54 @@ public class PartidosFinalizadosTab extends Activity {
         },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
     }
 
+
+    @Override
+    public void onResponse(JSONObject response) {
+
+        Log.d("Response", response.toString());
+        // vista.setText(response.toString());
+
+        JSONArray jsonArray ;
+        JSONObject jsonObject;
+        lv = (ListView) findViewById(R.id.listView);
+
+        try{
+
+            jsonArray =response.getJSONArray("matches");
+            Partido miPartido = new Partido();
+
+            partidos = miPartido.createArrayListPartidoFromResponse(jsonArray)
+;
+            lv.setAdapter(new CustomAdapter(this, partidos));
+
+
+
+        }
+        catch (Exception ex){
+
+        }
+
+
+
+//        User user = new User();
+//        user.name = "David";
+//        user.last_name = "Cortes";
+//        DatabaseManager.getInstance().addUser(user);
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+
+    }
+
+    public static String toJson(Object jsonObject)
+    {
+        return new Gson().toJson(jsonObject);
+    }
+
+    public static Object fromJson(String jsonString, Type type) {
+        return new Gson().fromJson(jsonString, type);
+    }
 
 
 

@@ -31,7 +31,7 @@ public class Partido {
         final String imageUrl = "http://play.futbalon.com/";
         String imagenEquipo2 = "";
         String imagenEquipo1 = "";
-        Partido miPartido = new Partido();
+
 
 
         ArrayList<Partido> listaPartidos = new ArrayList<Partido>();
@@ -40,7 +40,7 @@ public class Partido {
 
             for (int i = 0; i < myPartidoJSON.length(); i++) {
 
-
+                Partido miPartido = new Partido();
                 JSONObject row = myPartidoJSON.getJSONObject(i);
                 miPartido.setIdEquipo1(Integer.parseInt(row.getString("teamA")));
                 miPartido.setIdEquipo2(Integer.parseInt(row.getString("teamB")));

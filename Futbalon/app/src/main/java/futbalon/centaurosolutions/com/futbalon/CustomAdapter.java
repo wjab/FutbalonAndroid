@@ -2,6 +2,11 @@ package futbalon.centaurosolutions.com.futbalon;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -11,6 +16,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 
 /**
@@ -58,14 +70,19 @@ public class CustomAdapter extends BaseAdapter{
         // TODO Auto-generated method stub
         Holder holder=new Holder();
         View rowView;
+
         String match_score=result.get(position).getEquipo1() + " " + result.get(position).getGolesEquipo1() + " - " + result.get(position).getGolesEquipo2() + " " + result.get(position).getEquipo2();
         rowView = inflater.inflate(R.layout.activity_lista_partidos, null);
         holder.partido=(TextView) rowView.findViewById(R.id.partido);
         holder.equipo1= (ImageView) rowView.findViewById(R.id.img_equipo1);
         holder.equipo2= (ImageView) rowView.findViewById(R.id.img_equipo2);
 
-        getImagenEquipo(result.get(position).getEquipo1(), holder.equipo1);
-        getImagenEquipo(result.get(position).getEquipo2(), holder.equipo2);
+
+
+        Picasso.with(context).load(result.get(position).getImagenEquipo1()).into(holder.equipo1);
+        Picasso.with(context).load(result.get(position).getImagenEquipo2()).into(holder.equipo2);
+
+
         holder.partido.setText(match_score);
 
         holder.fecha=(TextView) rowView.findViewById(R.id.fecha);
@@ -81,46 +98,29 @@ public class CustomAdapter extends BaseAdapter{
         return rowView;
     }
 
-    public void getImagenEquipo(String nombreEquipo, ImageView imagen){
+    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
 
-        nombreEquipo = nombreEquipo.toLowerCase();
-
-        if(nombreEquipo.indexOf("belén") != -1){
-            imagen.setImageResource(R.mipmap.belen);
-        }
-        if(nombreEquipo.indexOf("uruguay") != -1){
-            imagen.setImageResource(R.mipmap.uruguay);
-        }
-        if(nombreEquipo.indexOf("saprissa") != -1){
-            imagen.setImageResource(R.mipmap.saprissa);
-        }
-        if(nombreEquipo.indexOf("cartaginés") != -1){
-            imagen.setImageResource(R.mipmap.cartago);
-        }
-        if(nombreEquipo.indexOf("carmelita") != -1){
-            imagen.setImageResource(R.mipmap.carmelita);
-        }
-        if(nombreEquipo.indexOf("liberia") != -1){
-            imagen.setImageResource(R.mipmap.liberia);
-        }
-        if(nombreEquipo.indexOf("perez") != -1){
-            imagen.setImageResource(R.mipmap.perez);
-        }
-        if(nombreEquipo.indexOf("ucr") != -1){
-            imagen.setImageResource(R.mipmap.ucr);
-        }
-        if(nombreEquipo.indexOf("santos") != -1){
-            imagen.setImageResource(R.mipmap.santos);
-        }
-        if(nombreEquipo.indexOf("limón") != -1){
-            imagen.setImageResource(R.mipmap.limon);
-        }
-        if(nombreEquipo.indexOf("alajuelense") != -1){
-            imagen.setImageResource(R.mipmap.liga);
-        }
-        if(nombreEquipo.indexOf("herediano") != -1){
-            imagen.setImageResource(R.mipmap.heredia);
+        public DownloadImageTask(ImageView bmImage) {
+            this.bmImage = bmImage;
         }
 
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            bmImage.setImageBitmap(result);
+        }
     }
+
 }

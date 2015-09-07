@@ -3,13 +3,22 @@ package futbalon.centaurosolutions.com.futbalon;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.google.gson.Gson;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-public class PartidosPendientesTab extends Activity {
+public class PartidosPendientesTab extends  Activity implements Response.Listener<JSONObject>, Response.ErrorListener{
 
     ListView lv;
     Context context;
@@ -49,6 +58,48 @@ public class PartidosPendientesTab extends Activity {
         lv=(ListView) findViewById(R.id.listView);
         lv.setAdapter(new CustomAdapter(this, array_mejenga));
     }
+
+    @Override
+    public void onResponse(JSONObject response) {
+
+        Log.d("Response", response.toString());
+        // vista.setText(response.toString());
+
+        JSONArray jsonArray;
+        JSONObject jsonObject;
+
+        try{
+           //tv_response.setText(response.toString());
+
+
+
+        }
+        catch (Exception ex){
+
+        }
+
+
+
+//        User user = new User();
+//        user.name = "David";
+//        user.last_name = "Cortes";
+//        DatabaseManager.getInstance().addUser(user);
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+
+    }
+
+    public static String toJson(Object jsonObject)
+    {
+        return new Gson().toJson(jsonObject);
+    }
+
+    public static Object fromJson(String jsonString, Type type) {
+        return new Gson().fromJson(jsonString, type);
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
