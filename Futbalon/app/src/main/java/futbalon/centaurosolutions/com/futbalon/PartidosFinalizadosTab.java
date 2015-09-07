@@ -34,20 +34,14 @@ public class PartidosFinalizadosTab extends Activity implements Response.Listene
 
     ListView lv;
     Context context;
-
     ArrayList prgmName;
     private EditText fromDateEtxt;
     private EditText toDateEtxt;
-
     private DatePickerDialog fromDatePickerDialog;
     private DatePickerDialog toDatePickerDialog;
-
     private SimpleDateFormat dateFormatter;
- //   public static int [] prgmImages={R.drawable.images,R.drawable.images1,R.drawable.images2,R.drawable.images3,R.drawable.images4,R.drawable.images5,R.drawable.images6,R.drawable.images7,R.drawable.images8};
- //   public static String [] prgmNameList={"Let Us C","c++","JAVA","Jsp","Microsoft .Net","Android","PHP","Jquery","JavaScript"};
 
-    public Partido partido1= new Partido();
-    public Partido partido2= new Partido();
+
     ArrayList<Partido> partidos = new ArrayList<Partido>();
 
 
@@ -65,9 +59,6 @@ public class PartidosFinalizadosTab extends Activity implements Response.Listene
         String url = "http://services.futbalon.com/aggregators/matches/getFinishMatchesByDateRange?idUser=12018&fromValue=27/08/2015&toValue=03/09/2015";
 
 
-
-
-
         fromDateEtxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,7 +72,6 @@ public class PartidosFinalizadosTab extends Activity implements Response.Listene
                 toDatePickerDialog.show();
             }
         });
-
 
 
         ServiceController serviceController = new ServiceController();
@@ -148,8 +138,7 @@ public class PartidosFinalizadosTab extends Activity implements Response.Listene
             jsonArray =response.getJSONArray("matches");
             Partido miPartido = new Partido();
 
-            partidos = miPartido.createArrayListPartidoFromResponse(jsonArray)
-;
+            partidos = miPartido.createArrayListPartidoFromResponse(jsonArray);
             lv.setAdapter(new CustomAdapter(this, partidos));
 
 

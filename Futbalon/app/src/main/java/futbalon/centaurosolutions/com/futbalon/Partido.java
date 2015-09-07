@@ -5,7 +5,10 @@ import android.widget.ImageView;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by Eduardo on 29/08/2015.
@@ -53,7 +56,7 @@ public class Partido {
                 imagenEquipo2 = imageUrl + row.getString("logotypeTeamB");
                 miPartido.setImagenEquipo1(imagenEquipo1);
                 miPartido.setImagenEquipo2(imagenEquipo2);
-                miPartido.setFecha(row.getString("matchDate").toString());
+                miPartido.setFecha(matchDateFormat(row.getString("matchDate").toString()));
                 listaPartidos.add(miPartido);
             }
         }
@@ -62,6 +65,26 @@ public class Partido {
         }
 
         return listaPartidos;
+
+    }
+
+    public String matchDateFormat(String fecha_partido){
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
+
+        Date date =new Date();
+        try {
+            date=format.parse(fecha_partido);
+
+        } catch (ParseException ex) {
+
+        }
+        SimpleDateFormat hourdateFormat = new SimpleDateFormat("dd MMMM, yyyy - hh:mm aa");
+
+        String var= (hourdateFormat.format(date).toString());
+
+        return var;
+
 
     }
 

@@ -23,7 +23,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by Eduardo on 03/09/2015.
@@ -76,17 +82,13 @@ public class CustomAdapter extends BaseAdapter{
         holder.partido=(TextView) rowView.findViewById(R.id.partido);
         holder.equipo1= (ImageView) rowView.findViewById(R.id.img_equipo1);
         holder.equipo2= (ImageView) rowView.findViewById(R.id.img_equipo2);
-
-
-
         Picasso.with(context).load(result.get(position).getImagenEquipo1()).into(holder.equipo1);
         Picasso.with(context).load(result.get(position).getImagenEquipo2()).into(holder.equipo2);
-
-
         holder.partido.setText(match_score);
-
         holder.fecha=(TextView) rowView.findViewById(R.id.fecha);
         holder.fecha.setText(result.get(position).getFecha());
+
+
 
   /*      rowView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,30 +99,4 @@ public class CustomAdapter extends BaseAdapter{
         });*/
         return rowView;
     }
-
-    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-        ImageView bmImage;
-
-        public DownloadImageTask(ImageView bmImage) {
-            this.bmImage = bmImage;
-        }
-
-        protected Bitmap doInBackground(String... urls) {
-            String urldisplay = urls[0];
-            Bitmap mIcon11 = null;
-            try {
-                InputStream in = new java.net.URL(urldisplay).openStream();
-                mIcon11 = BitmapFactory.decodeStream(in);
-            } catch (Exception e) {
-                Log.e("Error", e.getMessage());
-                e.printStackTrace();
-            }
-            return mIcon11;
-        }
-
-        protected void onPostExecute(Bitmap result) {
-            bmImage.setImageBitmap(result);
-        }
-    }
-
 }

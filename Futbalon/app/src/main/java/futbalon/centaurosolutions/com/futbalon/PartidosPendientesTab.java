@@ -32,7 +32,7 @@ public class PartidosPendientesTab extends  Activity implements Response.Listene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_partidos_pendientes_tab);
-        partido1.setEquipo1("Municipal Liberia");
+    /*    partido1.setEquipo1("Municipal Liberia");
         partido1.setEquipo2("Belén");
         partido1.setGolesEquipo1(2);
         partido1.setGolesEquipo2(3);
@@ -56,7 +56,7 @@ public class PartidosPendientesTab extends  Activity implements Response.Listene
         context=this;
 
         lv=(ListView) findViewById(R.id.listView);
-        lv.setAdapter(new CustomAdapter(this, array_mejenga));
+        lv.setAdapter(new CustomAdapter(this, array_mejenga));*/
     }
 
     @Override
