@@ -1,11 +1,15 @@
 package futbalon.centaurosolutions.com.futbalon;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,6 +17,8 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -23,9 +29,11 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import futbalon.centaurosolutions.com.futbalon.controllers.ServiceController;
@@ -37,12 +45,19 @@ public class PartidosFinalizadosTab extends Activity implements Response.Listene
     ArrayList prgmName;
     private EditText fromDateEtxt;
     private EditText toDateEtxt;
+    private String toDate;
+    private String fromDate;
     private DatePickerDialog fromDatePickerDialog;
     private DatePickerDialog toDatePickerDialog;
     private SimpleDateFormat dateFormatter;
+    Response.Listener<JSONObject> response;
+    Response.ErrorListener responseError;
 
 
     ArrayList<Partido> partidos = new ArrayList<Partido>();
+    ServiceController serviceController ;
+
+    AlertDialog alertDialog;
 
 
 
@@ -51,12 +66,19 @@ public class PartidosFinalizadosTab extends Activity implements Response.Listene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_partidos_finalizados_tab);
 
-        dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
+        response = this;
+        responseError=this;
+        dateFormatter = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
 
         findViewsById();
 
         setDateTimeField();
-        String url = "http://services.futbalon.com/aggregators/matches/getFinishMatchesByDateRange?idUser=12018&fromValue=27/08/2015&toValue=03/09/2015";
+        toDate = toDateEtxt.getText().toString();
+        fromDate = fromDateEtxt.getText().toString();
+        serviceController = new ServiceController();
+        String url = "http://services.futbalon.com/aggregators/matches/getFinishMatchesByDateRange?idUser=12018&fromValue="+fromDate+"&toValue="+ toDate;
+        serviceController.jsonObjectRequest(url, Request.Method.GET, null, response, responseError);
+
 
 
         fromDateEtxt.setOnClickListener(new View.OnClickListener() {
@@ -73,13 +95,124 @@ public class PartidosFinalizadosTab extends Activity implements Response.Listene
             }
         });
 
+        fromDateEtxt.addTextChangedListener(new TextWatcher() {
 
-        ServiceController serviceController = new ServiceController();
+            public void afterTextChanged(Editable s) {
+                toDate = toDateEtxt.getText().toString();
+                fromDate = fromDateEtxt.getText().toString();
+                serviceController = new ServiceController();
+                String url = "http://services.futbalon.com/aggregators/matches/getFinishMatchesByDateRange?idUser=12018&fromValue="+fromDate+"&toValue="+ toDate;
 
-        serviceController.jsonObjectRequest(url, Request.Method.GET, null, this, this);
+                if(CheckDates(fromDate,toDate)){
+                    serviceController.jsonObjectRequest(url, Request.Method.GET,null,response,responseError);
+                }
+                else{
+                    AlertDialog alertDialog = new AlertDialog.Builder(PartidosFinalizadosTab.this).create();
+
+                    // Setting Dialog Title
+                    alertDialog.setTitle("Advertencia");
+
+                    // Setting Dialog Message
+                    alertDialog.setMessage("Verifique que la fecha inicial sea menor o igual a la fecha final ");
+
+                    // Setting OK Button
+                    // Setting OK Button
+                    alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Write your code here to execute after dialog closed
+
+                        }
+                    });
+
+                    // Showing Alert Message
+                    alertDialog.show();
+
+                }
+
+            }
+
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+        });
+
+        toDateEtxt.addTextChangedListener(new TextWatcher() {
+
+            public void afterTextChanged(Editable s) {
+                toDate = toDateEtxt.getText().toString();
+                fromDate = fromDateEtxt.getText().toString();
+                serviceController = new ServiceController();
+                String url = "http://services.futbalon.com/aggregators/matches/getFinishMatchesByDateRange?idUser=12018&fromValue="+fromDate+"&toValue="+ toDate;
+
+                if(CheckDates(fromDate,toDate)){
+                    serviceController.jsonObjectRequest(url, Request.Method.GET,null,response,responseError);
+                }
+                else{
+                    AlertDialog alertDialog = new AlertDialog.Builder(PartidosFinalizadosTab.this).create();
+
+                    // Setting Dialog Title
+                    alertDialog.setTitle("Advertencia");
+
+                    // Setting Dialog Message
+                    alertDialog.setMessage("Verifique que la fecha inicial sea menor o igual a la fecha final ");
+
+                    // Setting OK Button
+                    // Setting OK Button
+                    alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Write your code here to execute after dialog closed
+
+                        }
+                    });
+
+                    // Showing Alert Message
+                    alertDialog.show();
+                }
+            }
+
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+        });
 
 
     }
+
+
+    public static boolean CheckDates(String from_date, String to_date)    {
+        SimpleDateFormat dfDate  = new SimpleDateFormat("dd/MM/yyyy");
+        boolean b = false;
+        try {
+            if(dfDate.parse(from_date).before(dfDate.parse(to_date)))
+            {
+                b = true;//If start date is before end date
+            }
+            else if(dfDate.parse(from_date).equals(dfDate.parse(to_date)))
+            {
+                b = true;//If two dates are equal
+            }
+            else
+            {
+                b = false; //If start date is after the end date
+            }
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return b;
+    }
+
+
 
     private void findViewsById() {
         fromDateEtxt = (EditText) findViewById(R.id.etxt_fromdate);

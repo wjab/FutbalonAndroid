@@ -23,9 +23,7 @@ public class PartidosPendientesTab extends  Activity implements Response.Listene
     ListView lv;
     Context context;
 
-    public Partido partido1= new Partido();
-    public Partido partido2= new Partido();
-    ArrayList<Partido> array_mejenga = new ArrayList<Partido>();
+    ArrayList<Partido> partidos = new ArrayList<Partido>();
 
 
     @Override
@@ -53,10 +51,9 @@ public class PartidosPendientesTab extends  Activity implements Response.Listene
 
 
 
-        context=this;
+        context=this;*/
 
-        lv=(ListView) findViewById(R.id.listView);
-        lv.setAdapter(new CustomAdapter(this, array_mejenga));*/
+
     }
 
     @Override
@@ -72,7 +69,8 @@ public class PartidosPendientesTab extends  Activity implements Response.Listene
            //tv_response.setText(response.toString());
 
 
-
+            lv=(ListView) findViewById(R.id.listView);
+            lv.setAdapter(new CustomAdapter(this, partidos));
         }
         catch (Exception ex){
 
