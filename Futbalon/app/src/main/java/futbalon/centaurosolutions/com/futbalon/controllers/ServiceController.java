@@ -50,7 +50,8 @@ public class ServiceController  {
         this.params = params;
     }
 
-    public void jsonObjectRequest(String url, int method, Map<String, String> params, Response.Listener<JSONObject> response, Response.ErrorListener error) {
+    public void jsonObjectRequest(String url, int method, Map<String, String> params, Response.Listener<JSONObject> response, Response.ErrorListener error)
+    {
         this.url = url;
         this.method = method;
         this.params = params;
@@ -58,35 +59,47 @@ public class ServiceController  {
 
         JsonObjectRequest objectRequest;
 
-        if (this.getParams() != null) {
+        if (this.getParams() != null)
+        {
             objectRequest = new JsonObjectRequest(this.getMethod(), this.getUrl(), new JSONObject(this.getParams()), response, error);
-        } else {
+        }
+        else
+        {
             objectRequest = new JsonObjectRequest(this.getMethod(), this.getUrl(), response, error);
         }
 
-        // {}
-        // []
-
         AppController.getInstance().addToRequestQueue(objectRequest, tag_json_obj);
-
     }
 
-    public void jsonArrayRequest(String url, int method, Map<String, String> params, Response.Listener<JSONArray> response, Response.ErrorListener error) {
-        this.url = url;
-        this.method = method;
-        this.params = params;
+    public void jsonArrayRequest(String url, int method, Map<String, String> params, Response.Listener<JSONArray> response, Response.ErrorListener error)
+    {
+        try
+        {
+            this.url = url;
+            this.method = method;
+            this.params = params;
 
-        String tag_json_arry = "json_array_req";
+            String tag_json_arry = "json_array_req";
 
-        JsonArrayRequest arrayRequest;
+            JsonArrayRequest arrayRequest;
 
-        if (this.getParams() != null) {
-            arrayRequest = new JsonArrayRequest(this.getMethod(), this.getUrl(), new JSONObject(this.getParams()), response, error);
-        } else {
-            arrayRequest = new JsonArrayRequest(this.getMethod(), this.getUrl(), response, error);
+            if (this.getParams() != null)
+            {
+                arrayRequest = new JsonArrayRequest(this.getMethod(), this.getUrl(), new JSONObject(this.getParams()), response, error);
+            }
+            else
+            {
+                arrayRequest = new JsonArrayRequest(this.getMethod(), this.getUrl(), response, error);
+            }
+
+            AppController.getInstance().addToRequestQueue(arrayRequest, tag_json_arry);
         }
-        //Arreglo []
-        AppController.getInstance().addToRequestQueue(arrayRequest, tag_json_arry);
+        catch (Exception ex)
+        {
+            Log.d("jsonArrayRequest Exeption ", ex.getMessage().toString());
+        }
+
+
     }
 
     public void stringRequest(String url, int method, Map<String, String> params, Response.Listener<String> response, Response.ErrorListener error) {

@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 
+import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
@@ -18,58 +19,53 @@ import org.json.JSONObject;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-public class PartidosPendientesTab extends  Activity implements Response.Listener<JSONObject>, Response.ErrorListener{
+import futbalon.centaurosolutions.com.futbalon.controllers.ServiceController;
 
+public class PartidosPendientesTab extends Activity implements Response.Listener<JSONArray>, Response.ErrorListener
+{
     ListView lv;
     Context context;
 
     ArrayList<Partido> partidos = new ArrayList<Partido>();
-
+    ServiceController serviceController;
+    Response.Listener<JSONArray> response;
+    Response.ErrorListener responseError;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_partidos_pendientes_tab);
-    /*    partido1.setEquipo1("Municipal Liberia");
-        partido1.setEquipo2("Belén");
-        partido1.setGolesEquipo1(2);
-        partido1.setGolesEquipo2(3);
-        partido1.setStatus("PEN");
-        partido1.setFecha("6 Septiembre, 2015 - 08:00 PM");
 
-        partido2.setEquipo1("UCR");
-        partido2.setEquipo2("Limón");
-        partido2.setGolesEquipo1(3);
-        partido2.setGolesEquipo2(2);
-        partido2.setStatus("PEN");
-        partido2.setFecha("4 Septiembre, 2015 - 05:00 PM");
+        response = this;
+        responseError = this;
 
-        array_mejenga.add(partido1);
-        array_mejenga.add(partido2);
-
-
-
-
-
-        context=this;*/
-
-
+        try
+        {
+            serviceController = new ServiceController();
+            String url = "http://services.futbalon.com/aggregators/matches/getPending";
+            serviceController.jsonArrayRequest(url, Request.Method.GET, null, response, responseError);
+        }
+        catch (Exception ex)
+        {
+            Log.d("Response", ex.getMessage().toString());
+        }
     }
 
     @Override
-    public void onResponse(JSONObject response) {
-
+    public void onResponse(JSONArray response)
+    {
         Log.d("Response", response.toString());
         // vista.setText(response.toString());
 
         JSONArray jsonArray;
         JSONObject jsonObject;
 
-        try{
-           //tv_response.setText(response.toString());
+        try
+        {
+            Partido miPartido = new Partido();
+            partidos = miPartido.createArrayListPartidoFromResponse(response);
 
-
-            lv=(ListView) findViewById(R.id.listView);
+            lv = (ListView) findViewById(R.id.listView);
             lv.setAdapter(new CustomAdapter(this, partidos));
         }
         catch (Exception ex){
@@ -85,8 +81,9 @@ public class PartidosPendientesTab extends  Activity implements Response.Listene
     }
 
     @Override
-    public void onErrorResponse(VolleyError error) {
-
+    public void onErrorResponse(VolleyError error)
+    {
+        Log.d("Response", error.toString());
     }
 
     public static String toJson(Object jsonObject)

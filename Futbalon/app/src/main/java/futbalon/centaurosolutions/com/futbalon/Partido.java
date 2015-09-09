@@ -35,12 +35,10 @@ public class Partido {
         String imagenEquipo2 = "";
         String imagenEquipo1 = "";
 
-
-
         ArrayList<Partido> listaPartidos = new ArrayList<Partido>();
 
-        try{
-
+        try
+        {
             for (int i = 0; i < myPartidoJSON.length(); i++) {
 
                 Partido miPartido = new Partido();
@@ -65,7 +63,6 @@ public class Partido {
         }
 
         return listaPartidos;
-
     }
 
     public String matchDateFormat(String fecha_partido){
@@ -73,15 +70,17 @@ public class Partido {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
 
         Date date =new Date();
-        try {
+        try
+        {
             date=format.parse(fecha_partido);
 
-        } catch (ParseException ex) {
+        }
+        catch (ParseException ex) {
 
         }
         SimpleDateFormat hourdateFormat = new SimpleDateFormat("dd MMMM, yyyy - hh:mm aa");
 
-        String var= (hourdateFormat.format(date).toString());
+        String var = (hourdateFormat.format(date).toString());
 
         return var;
 

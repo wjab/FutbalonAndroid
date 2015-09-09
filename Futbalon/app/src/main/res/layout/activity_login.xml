@@ -18,25 +18,26 @@
 
 
 
-    <EditText android:id="@+id/usuario"
-              android:layout_height="25dp"
-              android:textColorHint="@color/futbalon_gray"
-              android:background="@drawable/round_edit_text"
-              android:hint=" Correo electrónico"
-              android:layout_width="fill_parent"
-
-              android:layout_marginBottom="5dp"
+    <EditText
+        android:id="@+id/usuario"
+        android:layout_height="25dp"
+        android:textColorHint="@color/futbalon_gray"
+        android:background="@drawable/round_edit_text"
+        android:hint="Correo electrónico"
+        android:layout_width="fill_parent"
+        android:layout_marginBottom="5dp"
         android:textSize="10dp" />
 
 
 
-    <EditText   android:id="@+id/password"
-                android:layout_height="25dp"
-                android:textColorHint="@color/futbalon_gray"
-                android:hint=" Contrasena"
-                android:background="@drawable/round_edit_text"
-                android:layout_width="fill_parent"
-                android:layout_marginBottom="5dp"
+    <EditText
+        android:id="@+id/password"
+        android:layout_height="25dp"
+        android:textColorHint="@color/futbalon_gray"
+        android:hint="Contrasena"
+        android:background="@drawable/round_edit_text"
+        android:layout_width="fill_parent"
+        android:layout_marginBottom="5dp"
         android:textSize="10dp" />
 
     <Button

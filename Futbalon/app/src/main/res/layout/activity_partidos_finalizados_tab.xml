@@ -25,7 +25,7 @@
             android:layout_weight=".5"
             android:textColor="@color/futbalon_dark_gray"
             android:background="@drawable/round_edit_date"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:gravity="center"
             android:textSize="14sp"
             android:layout_marginRight="2dp"/>
@@ -36,7 +36,7 @@
             android:layout_weight=".5"
             android:textSize="14sp"
             android:textColor="@color/futbalon_dark_gray"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:background="@drawable/round_edit_date"
             android:gravity="center" />
 

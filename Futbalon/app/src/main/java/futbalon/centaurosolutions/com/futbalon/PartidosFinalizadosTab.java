@@ -53,13 +53,9 @@ public class PartidosFinalizadosTab extends Activity implements Response.Listene
     Response.Listener<JSONObject> response;
     Response.ErrorListener responseError;
 
-
     ArrayList<Partido> partidos = new ArrayList<Partido>();
     ServiceController serviceController ;
-
     AlertDialog alertDialog;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,11 +71,10 @@ public class PartidosFinalizadosTab extends Activity implements Response.Listene
         setDateTimeField();
         toDate = toDateEtxt.getText().toString();
         fromDate = fromDateEtxt.getText().toString();
+
         serviceController = new ServiceController();
         String url = "http://services.futbalon.com/aggregators/matches/getFinishMatchesByDateRange?idUser=12018&fromValue="+fromDate+"&toValue="+ toDate;
         serviceController.jsonObjectRequest(url, Request.Method.GET, null, response, responseError);
-
-
 
         fromDateEtxt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -184,8 +179,6 @@ public class PartidosFinalizadosTab extends Activity implements Response.Listene
 
             }
         });
-
-
     }
 
 
@@ -212,8 +205,6 @@ public class PartidosFinalizadosTab extends Activity implements Response.Listene
         return b;
     }
 
-
-
     private void findViewsById() {
         fromDateEtxt = (EditText) findViewById(R.id.etxt_fromdate);
         fromDateEtxt.setInputType(InputType.TYPE_NULL);
@@ -223,9 +214,8 @@ public class PartidosFinalizadosTab extends Activity implements Response.Listene
         toDateEtxt.setInputType(InputType.TYPE_NULL);
     }
 
-    private void setDateTimeField() {
-
-
+    private void setDateTimeField()
+    {
         Calendar currDate = Calendar.getInstance();
         toDateEtxt.setText(dateFormatter.format(currDate.getTime()));
         currDate.add(Calendar.DAY_OF_MONTH,-7);
@@ -255,7 +245,6 @@ public class PartidosFinalizadosTab extends Activity implements Response.Listene
         },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
     }
 
-
     @Override
     public void onResponse(JSONObject response) {
 
@@ -266,27 +255,17 @@ public class PartidosFinalizadosTab extends Activity implements Response.Listene
         JSONObject jsonObject;
         lv = (ListView) findViewById(R.id.listView);
 
-        try{
-
-            jsonArray =response.getJSONArray("matches");
+        try
+        {
+            jsonArray = response.getJSONArray("matches");
             Partido miPartido = new Partido();
 
             partidos = miPartido.createArrayListPartidoFromResponse(jsonArray);
             lv.setAdapter(new CustomAdapter(this, partidos));
-
-
-
         }
         catch (Exception ex){
 
         }
-
-
-
-//        User user = new User();
-//        user.name = "David";
-//        user.last_name = "Cortes";
-//        DatabaseManager.getInstance().addUser(user);
     }
 
     @Override
@@ -302,8 +281,6 @@ public class PartidosFinalizadosTab extends Activity implements Response.Listene
     public static Object fromJson(String jsonString, Type type) {
         return new Gson().fromJson(jsonString, type);
     }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
