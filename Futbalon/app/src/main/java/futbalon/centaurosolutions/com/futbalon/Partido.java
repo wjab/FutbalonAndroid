@@ -87,9 +87,6 @@ public class Partido {
 
     }
 
-
-
-
     public String getEquipo1() {
         return equipo1;
     }

@@ -4,38 +4,63 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
-import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-public class Login extends Activity {
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 
-    Button login;
-    EditText usuario, password;
+import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import futbalon.centaurosolutions.com.futbalon.controllers.ServiceController;
+
+public class Login extends Activity implements Response.Listener<JSONObject>, Response.ErrorListener {
+
+    Button b_login;
+    EditText et_usuario, et_password;
+    ServiceController serviceController;
+    Response.Listener<JSONObject> response;
+    Response.ErrorListener responseError;
+    User userObject = new User();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_login);
+
+        response = this;
+        responseError=this;
 
         ImageView imageView = (ImageView)findViewById(R.id.imageView);
         Bitmap bImage = BitmapFactory.decodeResource(this.getResources(), R.mipmap.ic_launcher);
         imageView.setImageBitmap(bImage);
 
-        login = (Button)findViewById(R.id.login);
+        b_login = (Button)findViewById(R.id.login);
+        et_usuario = (EditText)findViewById(R.id.usuario);
+        et_password = (EditText)findViewById(R.id.password);
 
-        login.setOnClickListener(new View.OnClickListener() {
+        b_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent call = new Intent(getApplicationContext(), Partidos.class);
-                startActivity(call);
+                serviceController = new ServiceController();
+                String url = "http://services.futbalon.com/aggregators/users/login";
+                Map<String, String> map = new HashMap<String, String>();
+                map.put("email", et_usuario.getText().toString());
+                map.put("password", et_password.getText().toString());
+
+                serviceController.jsonObjectRequest(url, Request.Method.POST, map, response, responseError);
             }
         });
 
@@ -61,6 +86,37 @@ public class Login extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onResponse(JSONObject response) {
+
+        Log.d("Response", response.toString());
+
+        try
+        {
+            userObject.setCorreo(response.getString("email"));
+            userObject.setPassword(response.getString("password"));
+            userObject.setFullName(response.getString("nombreCompleto"));
+            userObject.setAuthenticated(response.getBoolean("authenticated"));
+            userObject.setRegistered(response.getBoolean("registered"));
+            userObject.setTeamDistribution(response.getString("formation"));
+            userObject.setUserId(response.getInt("id"));
+            userObject.setGameState(response.getInt("state"));
+
+            Intent intent = new Intent(getApplicationContext(), Partidos.class);
+            intent.putExtra("user", userObject);
+            startActivity(intent);
+
+        }
+        catch (Exception ex){
+
+        }
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        Log.d("Login Error", error.toString());
     }
 
 

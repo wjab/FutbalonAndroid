@@ -102,19 +102,27 @@ public class ServiceController  {
 
     }
 
-    public void stringRequest(String url, int method, Map<String, String> params, Response.Listener<String> response, Response.ErrorListener error) {
-        this.url = url;
-        this.method = method;
-        this.params = params;
+    public void stringRequest(String url, int method, Map<String, String> params, Response.Listener<String> response, Response.ErrorListener error)
+    {
+        try
+        {
+            this.url = url;
+            this.method = method;
+            this.params = params;
 
-        String tag_string_req = "string_req";
+            String tag_string_req = "string_req";
 
-        StringRequest strReq;
+            StringRequest strReq;
 
-        strReq = new StringRequest(this.getMethod(), this.getUrl(), response, error);
+            strReq = new StringRequest(this.getMethod(), this.getUrl(), response, error);
 
-        //String
-        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+            //String
+            AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+        }
+        catch (Exception ex)
+        {
+            Log.d("stringRequest Error", ex.getMessage().toString());
+        }
     }
 
     public void imageRequest(String url, ImageView imageView, int icon_loading, int icon_error) {

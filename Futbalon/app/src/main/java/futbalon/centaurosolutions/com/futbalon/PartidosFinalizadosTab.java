@@ -54,7 +54,7 @@ public class PartidosFinalizadosTab extends Activity implements Response.Listene
     Response.ErrorListener responseError;
 
     ArrayList<Partido> partidos = new ArrayList<Partido>();
-    ServiceController serviceController ;
+    ServiceController serviceController;
     AlertDialog alertDialog;
 
     @Override
@@ -90,18 +90,20 @@ public class PartidosFinalizadosTab extends Activity implements Response.Listene
             }
         });
 
-        fromDateEtxt.addTextChangedListener(new TextWatcher() {
-
+        fromDateEtxt.addTextChangedListener(new TextWatcher()
+        {
             public void afterTextChanged(Editable s) {
                 toDate = toDateEtxt.getText().toString();
                 fromDate = fromDateEtxt.getText().toString();
                 serviceController = new ServiceController();
                 String url = "http://services.futbalon.com/aggregators/matches/getFinishMatchesByDateRange?idUser=12018&fromValue="+fromDate+"&toValue="+ toDate;
 
-                if(CheckDates(fromDate,toDate)){
-                    serviceController.jsonObjectRequest(url, Request.Method.GET,null,response,responseError);
+                if(CheckDates(fromDate,toDate))
+                {
+                    serviceController.jsonObjectRequest(url, Request.Method.GET, null, response, responseError);
                 }
-                else{
+                else
+                {
                     AlertDialog alertDialog = new AlertDialog.Builder(PartidosFinalizadosTab.this).create();
 
                     // Setting Dialog Title
@@ -122,7 +124,6 @@ public class PartidosFinalizadosTab extends Activity implements Response.Listene
 
                     // Showing Alert Message
                     alertDialog.show();
-
                 }
 
             }
@@ -136,8 +137,8 @@ public class PartidosFinalizadosTab extends Activity implements Response.Listene
             }
         });
 
-        toDateEtxt.addTextChangedListener(new TextWatcher() {
-
+        toDateEtxt.addTextChangedListener(new TextWatcher()
+        {
             public void afterTextChanged(Editable s) {
                 toDate = toDateEtxt.getText().toString();
                 fromDate = fromDateEtxt.getText().toString();

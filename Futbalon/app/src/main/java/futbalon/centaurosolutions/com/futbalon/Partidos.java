@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.text.InputFilter;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 import android.widget.TabHost;
 import android.util.Log;
 import android.widget.TabWidget;
@@ -16,10 +17,12 @@ import android.widget.TextView;
 public class Partidos extends TabActivity implements TabHost.OnTabChangeListener {
 
     TabHost tabHost;
+    User userObject = new User();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_partidos);
 
         tabHost = getTabHost();
@@ -29,6 +32,9 @@ public class Partidos extends TabActivity implements TabHost.OnTabChangeListener
 
         TabHost.TabSpec spec;
         Intent intent;
+
+        intent = new Intent();
+        userObject = (User)intent.getSerializableExtra("user");
 
 
         // Create  Intents to launch an Activity for the tab (to be reused)
