@@ -13,6 +13,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -54,13 +55,23 @@ public class Login extends Activity implements Response.Listener<JSONObject>, Re
         b_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                serviceController = new ServiceController();
-                String url = "http://services.futbalon.com/aggregators/users/login";
-                Map<String, String> map = new HashMap<String, String>();
-                map.put("email", et_usuario.getText().toString());
-                map.put("password", et_password.getText().toString());
 
-                serviceController.jsonObjectRequest(url, Request.Method.POST, map, response, responseError);
+
+                if(!et_usuario.getText().toString().isEmpty() && !et_password.getText().toString().isEmpty()){
+                    serviceController = new ServiceController();
+                    String url = "http://services.futbalon.com/aggregators/users/login";
+                    Map<String, String> map = new HashMap<String, String>();
+                    map.put("email", et_usuario.getText().toString());
+                    map.put("password", et_password.getText().toString());
+
+                    serviceController.jsonObjectRequest(url, Request.Method.POST, map, response, responseError);
+                }
+                else{
+
+                    Toast toast = Toast.makeText(getApplicationContext(), "Usuario y contraseña requeridos", Toast.LENGTH_LONG);
+                    toast.show();
+                }
+
             }
         });
 
@@ -104,13 +115,16 @@ public class Login extends Activity implements Response.Listener<JSONObject>, Re
             userObject.setUserId(response.getInt("id"));
             userObject.setGameState(response.getInt("state"));
 
-            Intent intent = new Intent(getApplicationContext(), Partidos.class);
-            intent.putExtra("user", userObject);
-            startActivity(intent);
+            if(userObject.getAuthenticated()){
 
+                Intent intent = new Intent(getApplicationContext(), Partidos.class);
+                intent.putExtra("user", userObject);
+                startActivity(intent);
+            }
         }
         catch (Exception ex){
-
+            Toast toast = Toast.makeText(getApplicationContext(), "Usuario o contraseña incorrecto", Toast.LENGTH_SHORT);
+            toast.show();
         }
     }
 

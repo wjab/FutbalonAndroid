@@ -31,6 +31,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import futbalon.centaurosolutions.com.futbalon.controllers.ServiceController;
+
 /**
  * Created by Eduardo on 03/09/2015.
  */
@@ -82,11 +84,18 @@ public class CustomAdapter extends BaseAdapter{
         holder.partido=(TextView) rowView.findViewById(R.id.partido);
         holder.equipo1= (ImageView) rowView.findViewById(R.id.img_equipo1);
         holder.equipo2= (ImageView) rowView.findViewById(R.id.img_equipo2);
-        Picasso.with(context).load(result.get(position).getImagenEquipo1()).into(holder.equipo1);
-        Picasso.with(context).load(result.get(position).getImagenEquipo2()).into(holder.equipo2);
+      //  Picasso.with(context).load(result.get(position).getImagenEquipo1()).into(holder.equipo1);
+       // Picasso.with(context).load(result.get(position).getImagenEquipo2()).into(holder.equipo2);
         holder.partido.setText(match_score);
         holder.fecha=(TextView) rowView.findViewById(R.id.fecha);
         holder.fecha.setText(result.get(position).getFecha());
+
+
+        ServiceController imageRequest =  new ServiceController();
+
+        imageRequest.imageRequest(result.get(position).getImagenEquipo1(), holder.equipo1, 0,0);
+        imageRequest.imageRequest(result.get(position).getImagenEquipo2(), holder.equipo2, 0,0);
+
 
 
 
