@@ -56,6 +56,8 @@ public class PartidosFinalizadosTab extends Activity implements Response.Listene
     ArrayList<Partido> partidos = new ArrayList<Partido>();
     ServiceController serviceController;
     AlertDialog alertDialog;
+    Intent intent;
+    int user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +67,10 @@ public class PartidosFinalizadosTab extends Activity implements Response.Listene
         response = this;
         responseError=this;
         dateFormatter = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+        intent =getIntent();
+        user =  intent.getIntExtra("user_id",0);
+
+
 
         findViewsById();
 
@@ -73,7 +79,7 @@ public class PartidosFinalizadosTab extends Activity implements Response.Listene
         fromDate = fromDateEtxt.getText().toString();
 
         serviceController = new ServiceController();
-        String url = "http://services.futbalon.com/aggregators/matches/getFinishMatchesByDateRange?idUser=12018&fromValue="+fromDate+"&toValue="+ toDate;
+        String url = "http://services.futbalon.com/aggregators/matches/getFinishMatchesByDateRange?idUser="+user+"&fromValue="+fromDate+"&toValue="+ toDate;
         serviceController.jsonObjectRequest(url, Request.Method.GET, null, response, responseError);
 
         fromDateEtxt.setOnClickListener(new View.OnClickListener() {
@@ -96,7 +102,7 @@ public class PartidosFinalizadosTab extends Activity implements Response.Listene
                 toDate = toDateEtxt.getText().toString();
                 fromDate = fromDateEtxt.getText().toString();
                 serviceController = new ServiceController();
-                String url = "http://services.futbalon.com/aggregators/matches/getFinishMatchesByDateRange?idUser=12018&fromValue="+fromDate+"&toValue="+ toDate;
+                String url = "http://services.futbalon.com/aggregators/matches/getFinishMatchesByDateRange?idUser="+user+"&fromValue="+fromDate+"&toValue="+ toDate;
 
                 if(CheckDates(fromDate,toDate))
                 {
@@ -143,7 +149,7 @@ public class PartidosFinalizadosTab extends Activity implements Response.Listene
                 toDate = toDateEtxt.getText().toString();
                 fromDate = fromDateEtxt.getText().toString();
                 serviceController = new ServiceController();
-                String url = "http://services.futbalon.com/aggregators/matches/getFinishMatchesByDateRange?idUser=12018&fromValue="+fromDate+"&toValue="+ toDate;
+                String url = "http://services.futbalon.com/aggregators/matches/getFinishMatchesByDateRange?idUser="+user+"&fromValue="+fromDate+"&toValue="+ toDate;
 
                 if(CheckDates(fromDate,toDate)){
                     serviceController.jsonObjectRequest(url, Request.Method.GET,null,response,responseError);

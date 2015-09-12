@@ -33,8 +33,8 @@ public class Partidos extends TabActivity implements TabHost.OnTabChangeListener
         TabHost.TabSpec spec;
         Intent intent;
 
-        intent = new Intent();
-        userObject = (User)intent.getSerializableExtra("user");
+        Intent myIntent = getIntent();
+        userObject = (User)myIntent.getSerializableExtra("user");
 
 
         // Create  Intents to launch an Activity for the tab (to be reused)
@@ -46,6 +46,7 @@ public class Partidos extends TabActivity implements TabHost.OnTabChangeListener
         tabHost.addTab(spec);
 
         intent = new Intent().setClass(this, PartidosFinalizadosTab.class);
+        intent.putExtra("user_id", userObject.getUserId());
         spec = tabHost.newTabSpec("Second").setIndicator("Partidos Finalizados")
                 .setContent(intent);
         tabHost.addTab(spec);
