@@ -47,7 +47,7 @@
             android:paddingLeft="8dp"
             android:textColorHint="@color/futbalon_gray"
             android:background="@drawable/round_edit_text"
-            android:hint=" Correo electrónico"
+            android:hint="@string/l_email"
             android:inputType="textEmailAddress"
             android:layout_marginBottom="5dp"
             android:textSize="15dp" />
@@ -59,7 +59,7 @@
             android:inputType="textPassword"
             android:layout_marginTop="10dp"
             android:textColorHint="@color/futbalon_gray"
-            android:hint=" Contraseña"
+            android:hint="@string/l_password"
             android:paddingLeft="8dp"
             android:background="@drawable/round_edit_text"
             android:layout_marginBottom="5dp"

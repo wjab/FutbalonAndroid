@@ -19,6 +19,9 @@
     <string name="title_activity_lista_partidos">Futbalon</string>
     <string name="title_activity_ws_test">WsTestActivity</string>
 
+    <string name="l_email"> Correo electrónico</string>
+    <string name="l_password"> Contraseña</string>
+
 
     <!-- Web service URLs -->
     <string name="GetEndedMatches">http://services.futbalon.com/aggregators/matches/getFinishMatchesByDateRange?idUser=puser_fromValue=pInitialdate_toValue=pEndDate</string>
